@@ -1,0 +1,475 @@
+/*
+Decade Navigator
+
+navigator.css
+
+v2 (4.0 Alpha 1)
+
+Changes
+- Replaced DAY COMPLETION with ACTIVE DAY
+- Added ACTIVE/LATE/EARLY styling
+- Added linked time editors
+- Added dual clock display
+- Added Active Day progress display
+- Improved YEAR layout
+*/
+
+:root{
+
+    --bg:#0f172a;
+    --card:#1e293b;
+
+    --text:#f8fafc;
+    --muted:#94a3b8;
+
+    --orange:#f59e0b;
+    --blue:#38bdf8;
+    --red:#ef4444;
+
+    --active:#f8fafc;
+    --early:#60a5fa;
+    --late:#ef4444;
+
+    --progress:#06b6d4;
+    --track:#334155;
+
+    --radius:16px;
+}
+
+/* ================================= */
+/* Global                            */
+/* ================================= */
+
+*{
+    box-sizing:border-box;
+}
+
+html,
+body{
+    margin:0;
+    padding:0;
+}
+
+body{
+
+    background:var(--bg);
+    color:var(--text);
+
+    font-family:
+        "Segoe UI",
+        Tahoma,
+        sans-serif;
+
+    padding:20px;
+}
+
+.wrap{
+    max-width:1400px;
+    margin:0 auto;
+}
+
+.page-header{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.page-header h1{
+    margin:0;
+    font-weight:700;
+}
+
+.dashboard{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.card{
+
+    background:var(--card);
+
+    border-radius:var(--radius);
+
+    padding:20px;
+
+    box-shadow:
+    0 4px 12px rgba(0,0,0,.30);
+}
+
+.card h2{
+    margin-top:0;
+    text-align:center;
+}
+
+.card h3{
+    margin-top:0;
+}
+
+.muted{
+    color:var(--muted);
+}
+
+/* ================================= */
+/* DAY                               */
+/* ================================= */
+
+.time-header{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap:20px;
+
+    margin-bottom:10px;
+}
+
+.time-block{
+    text-align:center;
+}
+
+.time-label{
+
+    color:var(--muted);
+
+    font-size:.85rem;
+
+    margin-bottom:4px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.08em;
+}
+
+.decimal-time{
+
+    font-size:48px;
+    font-weight:700;
+}
+
+#decTicks,
+#gregSeconds{
+
+    font-size:34px;
+    font-weight:400;
+
+    color:var(--muted);
+}
+
+.clock-container{
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+}
+
+#decimalClock{
+
+    width:420px;
+    max-width:100%;
+    height:auto;
+}
+
+#clockFace line{
+
+    stroke:#94a3b8;
+}
+
+#clockFace text{
+
+    fill:white;
+
+    font-size:28px;
+
+    text-anchor:middle;
+}
+
+#blockHand{
+
+    stroke:var(--orange);
+
+    stroke-width:8;
+
+    stroke-linecap:round;
+}
+
+#milleHand{
+
+    stroke:var(--blue);
+
+    stroke-width:5;
+
+    stroke-linecap:round;
+}
+
+#tickHand{
+
+    stroke:var(--red);
+
+    stroke-width:2;
+
+    stroke-linecap:round;
+}
+
+#clockHub{
+    fill:white;
+}
+
+/* ================================= */
+/* Shared Progress Bars              */
+/* ================================= */
+
+.progress-track{
+
+    width:100%;
+
+    height:14px;
+
+    background:var(--track);
+
+    border-radius:10px;
+
+    overflow:hidden;
+}
+
+.progress-fill{
+
+    height:100%;
+
+    width:0%;
+
+    background:var(--progress);
+}
+
+.year-progress{
+    margin-top:16px;
+}
+
+/* ================================= */
+/* ACTIVE DAY                        */
+/* ================================= */
+
+.active-day-editor{
+
+    margin-bottom:20px;
+}
+
+.entry-row{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    margin-bottom:10px;
+}
+
+.entry-label{
+
+    width:80px;
+
+    color:var(--muted);
+
+    font-size:.9rem;
+}
+
+.entry-row input{
+
+    width:64px;
+
+    text-align:center;
+
+    border:none;
+
+    border-radius:8px;
+
+    padding:8px;
+
+    background:#0f172a;
+
+    color:white;
+
+    font-size:1rem;
+}
+
+.day-offset{
+
+    color:var(--muted);
+
+    font-size:.75rem;
+
+    vertical-align:top;
+
+    margin-left:4px;
+}
+
+.active-status{
+
+    text-align:center;
+
+    margin-bottom:16px;
+}
+
+.active-percent{
+
+    font-size:52px;
+
+    font-weight:700;
+}
+
+.active-state{
+
+    font-size:22px;
+
+    font-weight:700;
+
+    letter-spacing:.08em;
+
+    margin-top:4px;
+}
+
+/* State colouring */
+
+.state-active{
+    color:var(--active);
+}
+
+.state-early{
+    color:var(--early);
+}
+
+.state-late{
+    color:var(--late);
+}
+
+#activeProgressFill.active{
+    background:white;
+}
+
+#activeProgressFill.early{
+    background:var(--early);
+}
+
+#activeProgressFill.late{
+    background:var(--late);
+}
+
+.active-description{
+
+    text-align:center;
+
+    margin-top:12px;
+
+    font-size:1rem;
+}
+
+.active-metric{
+
+    text-align:center;
+
+    margin-top:6px;
+
+    font-size:1.1rem;
+}
+
+/* ================================= */
+/* YEAR                              */
+/* ================================= */
+
+.year-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap:24px;
+}
+
+.year-column{
+    min-width:0;
+}
+
+#decimalDate,
+#gregorianDate{
+
+    font-size:1.4rem;
+
+    font-weight:700;
+
+    margin-bottom:10px;
+}
+
+#decimalMeta,
+#gregorianMeta{
+
+    line-height:1.6;
+}
+
+#yearProgressText{
+
+    text-align:center;
+
+    margin-top:8px;
+}
+
+/* ================================= */
+/* SELF                              */
+/* ================================= */
+
+#selfContent{
+
+    text-align:center;
+
+    line-height:1.8;
+}
+
+.self-code{
+
+    font-size:40px;
+
+    font-weight:700;
+}
+
+/* ================================= */
+/* CALENDAR                          */
+/* ================================= */
+
+#calendarContent{
+
+    text-align:center;
+
+    line-height:1.8;
+}
+
+/* ================================= */
+/* Responsive                        */
+/* ================================= */
+
+@media (max-width:1100px){
+
+    .dashboard{
+
+        grid-template-columns:1fr;
+    }
+
+    .year-grid{
+
+        grid-template-columns:1fr;
+    }
+
+    .time-header{
+
+        grid-template-columns:1fr;
+    }
+
+    .entry-row{
+
+        flex-wrap:wrap;
+    }
+}

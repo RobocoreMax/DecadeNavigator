@@ -1,0 +1,458 @@
+<!--
+Decade Navigator
+
+index.html
+
+v2 (4.0 Alpha 1)
+
+Changes:
+- Replaced DAY COMPLETION with ACTIVE DAY.
+- Added linked Normal/Decimal Start fields.
+- Added linked Normal/Decimal End fields.
+- Added ACTIVE/LATE/EARLY state panel.
+- Added Active Day progress bar.
+- YEAR section retained.
+- SELF section retained.
+- CALENDAR section retained.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>Decade Navigator</title>
+
+    <link
+        rel="stylesheet"
+        href="navigator.css"
+    >
+
+</head>
+
+<body>
+
+<div class="wrap">
+
+    <header class="page-header">
+
+        <h1>Decade Navigator</h1>
+
+    </header>
+
+    <main class="dashboard">
+
+        <!-- ================================= -->
+        <!-- DAY                               -->
+        <!-- ================================= -->
+
+        <section
+            class="card"
+            id="day-card"
+        >
+
+            <h2>DAY</h2>
+
+            <div class="time-header">
+
+                <div class="time-block">
+
+                    <div class="time-label">
+                        DECIMAL
+                    </div>
+
+                    <div class="decimal-time">
+                        <span id="decMain"></span>
+                        <span
+                            id="decTicks"
+                            class="muted"
+                        ></span>
+                    </div>
+
+                </div>
+
+                <div class="time-block">
+
+                    <div class="time-label">
+                        NORMAL
+                    </div>
+
+                    <div class="decimal-time">
+                        <span id="gregMain"></span>
+                        <span
+                            id="gregSeconds"
+                            class="muted"
+                        ></span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="clock-container">
+
+                <svg
+                    id="decimalClock"
+                    viewBox="0 0 420 420"
+                    width="420"
+                    height="420"
+                >
+
+                    <g id="clockFace"></g>
+
+                    <line
+                        id="blockHand"
+                        x1="210"
+                        y1="210"
+                        x2="210"
+                        y2="100"
+                    />
+
+                    <line
+                        id="milleHand"
+                        x1="210"
+                        y1="210"
+                        x2="210"
+                        y2="32"
+                    />
+
+                    <line
+                        id="tickHand"
+                        x1="210"
+                        y1="210"
+                        x2="210"
+                        y2="32"
+                    />
+
+                    <circle
+                        id="clockHub"
+                        cx="210"
+                        cy="210"
+                        r="6"
+                    />
+
+                </svg>
+
+            </div>
+
+            <div class="year-progress">
+
+                <div class="progress-track">
+
+                    <div
+                        id="dayProgressFill"
+                        class="progress-fill"
+                    ></div>
+
+                </div>
+
+                <div id="dayProgressText">
+                    0.0% day complete
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ================================= -->
+        <!-- ACTIVE DAY                        -->
+        <!-- ================================= -->
+
+        <section
+            class="card"
+            id="active-day-card"
+        >
+
+            <h2>ACTIVE DAY</h2>
+
+            <div class="active-day-editor">
+
+                <h3>START</h3>
+
+                <div class="entry-row">
+
+                    <div class="entry-label">
+                        Normal
+                    </div>
+
+                    <input
+                        id="startHour"
+                        type="number"
+                        min="0"
+                        max="23"
+                        value="8"
+                    >
+
+                    :
+
+                    <input
+                        id="startMinute"
+                        type="number"
+                        min="0"
+                        max="59"
+                        value="0"
+                    >
+
+                </div>
+
+                <div class="entry-row">
+
+                    <div class="entry-label">
+                        Decimal
+                    </div>
+
+                    <input
+                        id="startCent"
+                        type="number"
+                        min="0"
+                        max="99"
+                        value="33"
+                    >
+
+                    :
+
+                    <input
+                        id="startMil"
+                        type="number"
+                        min="0"
+                        max="9"
+                        value="3"
+                    >
+
+                </div>
+
+                <hr>
+
+                <h3>END</h3>
+
+                <div class="entry-row">
+
+                    <div class="entry-label">
+                        Normal
+                    </div>
+
+                    <input
+                        id="endHour"
+                        type="number"
+                        min="0"
+                        max="23"
+                        value="2"
+                    >
+
+                    :
+
+                    <input
+                        id="endMinute"
+                        type="number"
+                        min="0"
+                        max="59"
+                        value="0"
+                    >
+
+                    <span
+                        id="endNormalDayOffset"
+                        class="day-offset"
+                    >
+                        +1
+                    </span>
+
+                </div>
+
+                <div class="entry-row">
+
+                    <div class="entry-label">
+                        Decimal
+                    </div>
+
+                    <input
+                        id="endCent"
+                        type="number"
+                        min="0"
+                        max="99"
+                        value="8"
+                    >
+
+                    :
+
+                    <input
+                        id="endMil"
+                        type="number"
+                        min="0"
+                        max="9"
+                        value="8"
+                    >
+
+<span
+    id="endDecimalDayOffset"
+    class="day-offset"
+>
+    +1
+</span>
+
+</div>
+
+</div>
+
+<div class="active-status">
+
+    <div
+        id="activePercent"
+        class="active-percent"
+    >
+        0.0%
+    </div>
+
+    <div
+        id="activeState"
+        class="active-state"
+    >
+        ACTIVE
+    </div>
+
+</div>
+
+<div class="year-progress">
+
+    <div class="progress-track">
+
+        <div
+            id="activeProgressFill"
+            class="progress-fill"
+        ></div>
+
+    </div>
+
+</div>
+
+<div
+    id="activeDescription"
+    class="active-description"
+>
+    Active Day
+</div>
+
+<div
+    id="activeDeltaDecimal"
+    class="active-metric"
+>
+    --
+</div>
+
+<div
+    id="activeDeltaNormal"
+    class="active-metric muted"
+>
+    --
+</div>
+
+</section>
+
+<!-- YEAR -->
+
+<section
+    class="card"
+    id="year-card"
+>
+
+    <h2>YEAR</h2>
+
+    <div class="year-grid">
+
+        <div class="year-column">
+
+            <h3>DECIMAL</h3>
+
+            <div id="decimalDate"></div>
+
+            <div id="decimalMeta"></div>
+
+        </div>
+
+        <div class="year-column">
+
+            <h3>GREGORIAN</h3>
+
+            <div id="gregorianDate"></div>
+
+            <div id="gregorianMeta"></div>
+
+        </div>
+
+    </div>
+
+    <div class="year-progress">
+
+        <div class="progress-track">
+
+            <div
+                id="yearProgressFill"
+                class="progress-fill"
+            ></div>
+
+        </div>
+
+        <div
+            id="yearProgressText"
+        ></div>
+
+    </div>
+
+</section>
+
+<!-- SELF -->
+
+<section
+    class="card"
+    id="self-card"
+>
+
+    <h2>SELF</h2>
+
+    <div id="selfContent">
+
+        Loading...
+
+    </div>
+
+</section>
+
+<!-- CALENDAR -->
+
+<section
+    class="card"
+    id="calendar-card"
+>
+
+    <h2>CALENDAR</h2>
+
+    <div id="calendarContent">
+
+        <p>
+            Decimal ⇄ Gregorian Converter
+        </p>
+
+        <p>
+            Calendar Explorer
+        </p>
+
+    </div>
+
+</section>
+
+</main>
+
+</div>
+
+<script src="clock.js"></script>
+<script src="calendar.js"></script>
+<script src="self.js"></script>
+
+</body>
+</html>
